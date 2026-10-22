@@ -1,0 +1,51 @@
+site_name: Verified Dependency Synthesis
+site_description: Design concept for synthesizing verified, project-specific dependencies from signed specifications.
+site_url: https://verified-dependency-synthesis.github.io/vds-paper/
+repo_url: https://github.com/Verified-Dependency-Synthesis/vds-paper
+repo_name: Verified-Dependency-Synthesis/vds-paper
+edit_uri: ""
+
+# docs/ is assembled from README.md and diagrams/ by scripts/assemble-docs.sh
+docs_dir: docs
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/file-document-outline
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - toc.follow
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - github-callouts
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+plugins:
+  - search
