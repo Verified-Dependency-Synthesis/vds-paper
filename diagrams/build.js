@@ -455,4 +455,65 @@ function legend(x, y, items) {
   svg('roadmap', 1100, 380, b);
 }
 
+// 13 · Distribution ---------------------------------------------------------
+{
+  let b = '';
+  b += T(30, 44, 'Distribution with a company mirror', 'h');
+  b += T(30, 68, 'Only specifications cross the organization boundary. Generated code never leaves it.', 's');
+  b += `<rect x="480" y="90" width="600" height="445" rx="14" fill="#f6f7f9" stroke="#9ca3af"/>`;
+  b += T(500, 118, 'Organization scope', 'b tN');
+
+  b += arrow([[220, 175], [258, 175]], 'lnB', 'aB');
+  b += arrow([[440, 175], [508, 175]], 'lnB', 'aB');
+  b += arrow([[680, 175], [728, 175]]);
+  b += arrow([[890, 210], [890, 253]], 'lnG', 'aG');
+  [567, 707, 847, 987].forEach(x => b += arrow([[790, 340], [x, 428]], 'lnG', 'aG'));
+
+  b += box(30, 140, 190, 70, 'spec', [['Public spec registry', 'b'], ['signed spec packages', 's']]);
+  b += box(260, 140, 180, 70, 'gate', [['Review + quarantine', 'b'], ['approval · delay', 's']]);
+  b += box(510, 140, 170, 70, 'spec', [['Spec mirror', 'b'], ['approved specs only', 's']]);
+  b += box(730, 140, 320, 70, 'agent', [['Synthesis + gates', 'b'], ['once per standard profile', 's']]);
+  b += box(640, 255, 300, 85, 'ok', [['Synthesis registry', 'b'], ['signed implementations', 's'], ['key: spec · profile · language · toolchain', 's']]);
+  b += T(625, 282, 'verified on use:', 's b e tG') + T(625, 300, 'signature, digests,', 's e') + T(625, 318, 'local suite run', 's e');
+
+  [['Service A', 'internal-service'], ['Service B', 'internal-service'], ['Gateway', 'external-api'], ['Service D', 'own profile']]
+    .forEach(([n, p], i) => b += box(505 + i * 140, 430, 125, 65, i === 3 ? 'q' : 'neu', [[n, 'b'], [p, 's']], { dash: i === 3 }));
+  b += `<path d="M512,503 v8 H760 v-8" fill="none" stroke="#6b7280" stroke-width="1.4"/>`;
+  b += T(636, 527, 'same profile → same synthesis', 's c');
+
+  b += `<rect x="30" y="260" width="410" height="170" rx="10" fill="#fafafa" stroke="#9ca3af" stroke-dasharray="6 4"/>`;
+  b += T(50, 292, 'Why a company mirror', 'b');
+  ['Review gate for new spec versions', 'Quarantine catches poisoned releases', 'Air-gapped builds, no external outages', 'Blast radius limited to one organization']
+    .forEach((l, i) => b += `<circle cx="56" cy="${317 + i * 26}" r="3.5" fill="#2457d6"/>` + T(68, 322 + i * 26, l, 's'));
+  svg('distribution', 1100, 555, b);
+}
+
+// 14 · Synthesis scope ------------------------------------------------------
+{
+  let b = '';
+  b += T(30, 40, 'Synthesis scope: a dial between VDS and libraries', 'h');
+  b += `<rect x="480" y="62" width="240" height="298" rx="12" fill="#f2faf4" stroke="#bfe3c9"/>`;
+  b += `<line x1="330" y1="130" x2="870" y2="130" stroke="#d1d5db" stroke-width="6" stroke-linecap="round"/>`;
+  b += `<circle cx="330" cy="130" r="11" fill="#fff" stroke="#6b7280" stroke-width="3"/>`;
+  b += `<circle cx="870" cy="130" r="11" fill="#fff" stroke="#6b7280" stroke-width="3"/>`;
+  b += `<circle cx="600" cy="130" r="18" fill="none" stroke="#1a7f37" stroke-width="2"/><circle cx="600" cy="130" r="12" fill="#1a7f37"/>`;
+  b += T(330, 100, 'Per application', 'b c') + T(600, 100, 'Per organization + profile', 'b c tG') + T(870, 100, 'Global', 'b c');
+  b += `<rect x="530" y="156" width="140" height="24" rx="12" fill="#1a7f37"/>` + T(600, 173, 'recommended default', 's b c w');
+  b += T(330, 172, '← more diversity', 's c') + T(870, 172, 'more sharing →', 's c');
+
+  const rows = [
+    ['Blast radius', [['one application', 'tG'], ['one organization', 'tA'], ['entire ecosystem', 'tR']]],
+    ['Synthesis cost', [['high', 'tR'], ['low', 'tG'], ['minimal', 'tG']]],
+    ['Tailoring (P4)', [['maximal', 'tG'], ['per profile class', 'tA'], ['none', 'tR']]],
+    ['Equivalent to', [['pure VDS', 'tN'], ['VDS with a company cache', 'tN'], ['a conventional library', 'tN']]],
+  ];
+  rows.forEach(([label, vals], i) => {
+    const y = 222 + i * 40;
+    b += `<line x1="30" y1="${y - 26}" x2="970" y2="${y - 26}" stroke="#e5e7eb"/>`;
+    b += T(40, y, label, 's b tN');
+    vals.forEach(([v, c], j) => b += T([330, 600, 870][j], y, v, `t c ${c}`));
+  });
+  svg('synthesis-scope', 1000, 380, b);
+}
+
 console.log('ok');

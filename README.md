@@ -56,7 +56,7 @@ Generic libraries have to support everything: redirects, proxies, switchable cer
 | P2 | **Generation and verification are separate.** | Synthesizer and verifier use different models or vendors to reduce correlated blind spots. |
 | P3 | **Profiles restrict, never extend.** | A project profile can only narrow the scope of the specification (no redirects, a single host, TLS 1.3 only), never go beyond it. |
 | P4 | **What is not generated cannot be attacked.** | Only the part of the specification the profile needs is synthesized. |
-| P5 | **Diversity across projects, uniformity within a project.** | Within one system, a specification is synthesized exactly once. Two different parsers in the same system create parser differentials (request smuggling, SSRF). |
+| P5 | **Diversity across organizations, uniformity within one.** | Within an organization, a specification is synthesized once per profile and shared (§5.5). An organization's services form one system, and two different parsers in the same system create parser differentials (request smuggling, SSRF). |
 | P6 | **Verified primitives stay central.** | Cryptography, the TLS core and compression are not synthesized but included as verified central libraries. |
 | P7 | **Everything is reproducible and traceable.** | Every synthesis is recorded in the spec lock with digests of all inputs, models and check results. |
 
@@ -90,6 +90,8 @@ VDS is **not a replacement for all libraries**. Two questions decide: how expens
 | **Adversarial verifier** | Actively hunts for vulnerabilities, reports findings as test cases | May only block |
 | **Spec lock** (`spec.lock`) | Records all inputs, models, results and digests | Evidence / audit |
 | **Synthesized implementation** | Code checked into the project, reviewable like any other code | Result |
+| **Spec mirror** (optional) | Organization-internal copy of the registry with review and quarantine (§5.5) | Trusted after internal approval |
+| **Synthesis registry** (optional) | Shares verified syntheses within an organization, keyed by spec, profile, language and toolchain (§5.5) | Verified again on every use |
 
 ### 5.2 Structure of a spec package
 
@@ -125,6 +127,7 @@ Example of machine-readable invariants:
 project: billing-service
 language: go
 toolchain: go1.25
+registry: https://specs.internal.example.com   # company spec mirror (§5.5)
 
 dependencies:
   http-client:
@@ -143,6 +146,7 @@ dependencies:
       tls: crypto/tls              # verified primitive, not synthesized (P6)
 
 synthesis:
+  scope: organization              # share per profile within the organization (§5.5)
   synthesizer: model-a
   verifier: model-b                # different model (P2)
   fuzz_minutes: 120
@@ -168,6 +172,34 @@ http-client:
   output_digest: sha256:b3a9…
   provenance: in-toto attestation (SLSA Level 3)
 ```
+
+### 5.5 Distribution: spec mirror and synthesis scope
+
+A single public spec registry is a central hub, exactly the kind of concentration VDS sets out to avoid. Two mechanisms reduce that concentration without giving up the benefits of the model.
+
+![Distribution with a company mirror](diagrams/distribution.svg)
+
+**Company spec mirror.** Organizations do not consume the public registry directly, but through an internal mirror:
+
+- **Review gate:** new spec versions enter the mirror only after internal approval.
+- **Quarantine:** new versions are adopted only after a delay. Many supply chain attacks are detected within days.
+- **Availability:** air-gapped builds are possible, and an outage of the public registry blocks no build.
+
+Only specifications cross the organization boundary. Generated code never does.
+
+**Synthesis scope.** A synthesis does not have to be generated per application. An organization can synthesize once per profile and share the verified result internally through a synthesis registry. This deliberately relaxes "every application has its own implementation", but less than it seems:
+
+- The monoculture argument is about **mass exploitation across organizations**: one vulnerability, ten thousand companies. With organization scope, the blast radius is one organization, not the ecosystem.
+- It even strengthens P5. An organization's services form one system. When gateway and backend share a synthesis, there are no parsing differences between them that would enable request smuggling.
+- Synthesis cost is paid once, the security team can review one implementation thoroughly instead of fifty superficially, and a new attack class requires revalidating one artifact.
+
+**What is lost, and how to contain it.** The real loss is not diversity but tailoring (P4): a shared synthesis has to fit every application that uses it. That is why sharing happens per **profile**, not per spec. The registry key is the combination of spec version, profile, language and toolchain. In practice an organization defines a few **standard profiles**, for example `internal-service` (internal hosts only, mTLS) and `external-api` (host allowlist, no redirects). Applications with the same profile share a synthesis; special cases get their own.
+
+**New risk.** The synthesis registry becomes an internal attack target: whoever compromises it reaches every application. Projects therefore never adopt code blindly. On every use they check the signature and the `spec.lock` digests and rerun the conformance suite locally. That is cheap because nothing is regenerated.
+
+![Synthesis scope as a dial between VDS and libraries](diagrams/synthesis-scope.svg)
+
+The scope is the dial between both worlds: with global scope, VDS turns back into a conventional library. **Organization + profile** is the recommended default.
 
 ---
 
@@ -206,14 +238,15 @@ http-client:
 
 | Threat | Conventional library | VDS | Residual risk / mitigation |
 |---|---|---|---|
-| **Compromised maintainer, malicious update** (xz, event-stream) | Hits every user | No code distribution channel | Spec registry poisoning → signatures, multi-party review, specs are small and readable |
+| **Compromised maintainer, malicious update** (xz, event-stream) | Hits every user | No code distribution channel | Spec registry poisoning → signatures, multi-party review, small readable specs, company mirror with quarantine (§5.5) |
+| **Compromised internal synthesis registry** | — (new) | Hits one organization | Signature and digest check plus a local conformance run on every use (§5.5) |
 | **Implementation bug** | Hits every user at once | Hits one project, filtered by the gates | Correlated model errors → P2, differential testing |
 | **Misconfiguration, misuse** | Common, the API allows unsafe options | Constraints are built in | Wrong profile → profile schema, `overridable: false` |
 | **Transitive dependencies** | Often dozens | None, except verified primitives | — |
 | **Unused functionality as attack surface** | Fully included | Not generated (P4) | — |
 | **Specification bug** | Implicit in the code | Hits every synthesis | Spec review, differential testing against the reference; diversity does **not** help here |
 | **Manipulated agent output** (backdoor, prompt injection) | — (new) | The agent is untrusted | Sandbox without network, gates, verifier, human review of the diff |
-| **Parser differentials within one system** | Low with a shared library | Newly possible | P5: one synthesis per spec and system |
+| **Parser differentials within one system** | Low with a shared library | Newly possible | P5: one synthesis per spec and profile within an organization |
 | **Compiler, runtime, operating system** | Remains | Remains | Out of scope |
 
 ### 7.2 Why agents have a real advantage here
@@ -305,7 +338,7 @@ Candidates for a first component, each with an existing conformance suite:
 |---|---|---|
 | Specifications are harder to write than code | Slow adoption | Start with components for which specs and suites already exist |
 | Cost per synthesis | Tokens, CI time | Caching via `spec.lock`, re-synthesis only when revalidation fails |
-| Spec registry as a new attack target | The supply chain shifts | Signatures, transparency log, multi-party review, small specs |
+| Spec registry as a new attack target | The supply chain shifts | Signatures, transparency log, multi-party review, small specs, company mirrors with quarantine |
 | Maintainability of generated code | Debugging code that feels foreign | Code is checked in and reviewed, style rules in the profile |
 | Legal questions | Licensing of generated code, proximity to training data | Clarify before phase B starts |
 | Correlated model errors | Diversity is less effective than expected | Measure it (§9.2), use multiple vendors |
@@ -338,6 +371,10 @@ Candidates for a first component, each with an existing conformance suite:
 | **Spec lock** | File holding the digests of all inputs, models and check results of a synthesis |
 | **Primitive** | Complex, verified component that stays central (cryptography, TLS, compression) |
 | **Revalidation** | Re-checking existing implementations against updated suites |
+| **Spec mirror** | Organization-internal copy of the spec registry with review gate and quarantine |
+| **Synthesis registry** | Organization-internal store of verified syntheses, keyed by spec, profile, language and toolchain |
+| **Synthesis scope** | How widely a synthesis is shared: per application, per organization + profile, or global |
+| **Standard profile** | Organization-wide project profile (e.g. `internal-service`) that lets applications share a synthesis |
 | **Blast radius** | Number of systems affected by a single vulnerability |
 
 ---
