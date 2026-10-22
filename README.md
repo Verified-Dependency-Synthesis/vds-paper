@@ -83,7 +83,7 @@ VDS is **not a replacement for all libraries**. Two questions decide: how expens
 | Component | Responsibility | Trust |
 |---|---|---|
 | **Spec package** | Normative specification, interface, invariants, conformance suite, threat model | Trusted after review + signature |
-| **Spec registry** | Distributes signed spec packages (analogous to npm / crates.io) | Attack target, see §7 |
+| **Spec registry** | Distributes signed spec packages (analogous to npm / crates.io); MVP hosting in §5.6 | Untrusted storage, attack target, see §7 |
 | **Project profile** (`specbase.yaml`) | Language, target platform, constraints, primitives in use | Owned by the project |
 | **Synthesizer agent** | Generates the implementation + project-specific tests, runs in a sandbox without network | Untrusted |
 | **Deterministic gates** | Build, conformance, property tests, fuzzing, sanitizers, static analysis | Trust anchor |
@@ -127,7 +127,8 @@ Example of machine-readable invariants:
 project: billing-service
 language: go
 toolchain: go1.25
-registry: https://specs.internal.example.com   # company spec mirror (§5.5)
+registry:
+  url: oci://specs.internal.example.com/specs   # company spec mirror (§5.5), trust policy see §5.6
 
 dependencies:
   http-client:
@@ -200,6 +201,55 @@ Only specifications cross the organization boundary. Generated code never does.
 ![Synthesis scope as a dial between VDS and libraries](diagrams/synthesis-scope.svg)
 
 The scope is the dial between both worlds: with global scope, VDS turns back into a conventional library. **Organization + profile** is the recommended default.
+
+### 5.6 Registry hosting: MVP
+
+> **Scope of this section:** This is a **minimum viable setup** to get a working spec registry with no infrastructure of its own. It is a first step, **not the final hosting location**. The design is deliberately portable so the registry can move later without invalidating any published package.
+
+**Principle: the host is untrusted storage.** The registry needs no dedicated server. Spec packages are static, signed and immutable once published. Trust comes from the content digest, the signing identity and a public transparency log, never from the host. A compromised host can withhold packages, but it cannot forge them.
+
+![Registry hosting MVP on GitHub](diagrams/registry-mvp.svg)
+
+**Setup.** The MVP uses services that are free for public open source projects:
+
+| Building block | Role in the MVP | Cost for public projects |
+|---|---|---|
+| **GitHub repository** per spec package | Source of truth, changes through reviewed pull requests | Free |
+| **GitHub Actions** release workflow | Validates the package, runs the conformance suite against the reference implementation, packages and signs | Free |
+| **GitHub Container Registry** (`ghcr.io`) | Stores each spec package as an OCI artifact, addressed by digest | Free for public packages |
+| **Sigstore** (Fulcio, Rekor) | Keyless signing with the workflow's OIDC identity, public transparency log | Free public-good instance |
+| **SLSA GitHub generator** | Build provenance for every release | Free |
+
+**Release flow.**
+
+1. A maintainer merges a reviewed change and pushes a version tag, e.g. `v1.2.0`.
+2. The release workflow validates the package against the spec package schema and runs the conformance suite against the reference implementation.
+3. The workflow packages the spec as an OCI artifact (ORAS) and pushes it to `ghcr.io/<org>/specs/http-client:1.2.0`.
+4. It signs the artifact with cosign in keyless mode. The signing identity is the workflow itself, attested by GitHub's OIDC token, and the signature is recorded in Rekor.
+5. It attaches SLSA provenance to the artifact.
+
+**Verification on the consumer side.** `specbase` only accepts a spec package if digest, signing identity and transparency log entry all match the trust policy in the project:
+
+```yaml
+# specbase.yaml (excerpt)
+registry:
+  url: oci://ghcr.io/<org>/specs
+  trust:
+    issuer: https://token.actions.githubusercontent.com
+    identity: https://github.com/<org>/spec-*/.github/workflows/release.yml@refs/tags/v*
+    require_transparency_log: true
+```
+
+**Deliberately out of scope for the MVP.**
+
+| Open point | Why it matters | Later direction |
+|---|---|---|
+| Dependence on GitHub | GitHub becomes a single platform for availability | Additional mirrors on other OCI registries, company mirrors (§5.5) |
+| Governance | Who may publish which package, how maintainers are added | Publishing policy, multi-party review enforced in the workflow |
+| Namespace squatting | Look-alike package names | Curated index, verified publisher namespaces |
+| Freeze and rollback attacks | A host could serve outdated metadata | Signed index metadata following The Update Framework (TUF) |
+
+**Portability.** Packages are addressed by digest, and signatures plus log entries stay valid wherever a package is stored. Moving the registry to another host changes the `registry.url` and possibly the trust identity in `specbase.yaml`. Published packages, their digests and existing `spec.lock` files remain unchanged.
 
 ---
 
@@ -354,6 +404,10 @@ Candidates for a first component, each with an existing conformance suite:
 | **Software monoculture** (Geer et al., 2003) | Security risk of homogeneous software landscapes |
 | **HACL\*, seL4, rustls** | Formally verified or heavily reviewed central implementations; the "primitives" in VDS |
 | **SLSA, in-toto, reproducible builds** | Provenance and traceability of build outputs |
+| **Sigstore** (cosign, Fulcio, Rekor) | Keyless signing and public transparency log, used by the registry MVP |
+| **OCI artifacts, ORAS** | Storing non-container artifacts in OCI registries, the storage format of the registry MVP |
+| **The Update Framework (TUF)** | Secure update metadata against freeze and rollback attacks, the planned next step for the registry |
+| **Go module checksum database** | Precedent for a decentralized module source with a central transparency log |
 | **Spec-driven development** | The specification as the primary artifact of agentic development |
 | **Differential testing, property-based testing, fuzzing** | Verification techniques used by the gates |
 

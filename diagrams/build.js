@@ -516,4 +516,37 @@ function legend(x, y, items) {
   svg('synthesis-scope', 1000, 380, b);
 }
 
+// 15 · Registry MVP ---------------------------------------------------------
+{
+  let b = '';
+  b += `<rect x="30" y="24" width="1040" height="40" rx="10" fill="#fff4d6" stroke="#b7791f"/>`;
+  b += T(550, 50, 'MVP · a first step toward a working registry, not the final hosting location', 'b c tA');
+
+  b += arrow([[210, 160], [258, 160]]);
+  b += T(234, 150, 'tag', 's c');
+  b += arrow([[490, 140], [558, 130]], 'lnB', 'aB');
+  b += T(522, 122, 'push', 's c tB');
+  b += arrow([[490, 180], [558, 255]], 'lnP', 'aP');
+  b += T(516, 238, 'sign', 's e tP');
+  b += arrow([[760, 130], [828, 178]], 'lnB', 'aB');
+  b += T(800, 140, 'pull', 's tB');
+  b += arrow([[760, 260], [828, 212]], 'lnP', 'aP');
+  b += T(800, 258, 'verify', 's tP');
+  b += arrow([[945, 330], [945, 242]], 'ln', 'a', { dash: true });
+  b += T(955, 292, 'alternative pull', 's');
+
+  b += box(30, 120, 180, 80, 'neu', [['Spec repository', 'b'], ['GitHub · PR review', 's']]);
+  b += box(260, 110, 230, 100, 'gate', [['Release workflow', 'b'], ['GitHub Actions', 's'], ['validate · suite · package', 's']]);
+  b += box(560, 90, 200, 80, 'spec', [['ghcr.io', 'm'], ['OCI artifact by digest', 's']]);
+  b += box(560, 220, 200, 80, 'q', [['Sigstore', 'b'], ['Fulcio cert · Rekor log', 's']]);
+  b += box(830, 150, 230, 90, 'dark', [['specbase client', 'b'], ['checks digest, signing', 's'], ['identity and log entry', 's']], { light: true });
+  b += box(830, 330, 230, 70, 'neu', [['Company mirror', 'b'], ['replicates ghcr.io (§5.5)', 's']], { dash: true });
+
+  b += `<rect x="30" y="330" width="520" height="116" rx="10" fill="#f2faf4" stroke="#bfe3c9"/>`;
+  b += T(50, 360, 'Trust does not live in the host', 'b tG');
+  ['GitHub and ghcr.io only store and deliver packages. Trust comes', 'from the digest, the signing identity and the transparency log.', 'A compromised host can withhold packages, but cannot forge them.']
+    .forEach((l, i) => b += T(50, 386 + i * 20, l, 's'));
+  svg('registry-mvp', 1100, 470, b);
+}
+
 console.log('ok');
