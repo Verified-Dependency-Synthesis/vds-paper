@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1030 290" width="1030" height="290"><style>
+text{font-family:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;fill:#1f2430}
+.h{font-size:20px;font-weight:700}
+.b{font-size:15px;font-weight:600}
+.t{font-size:15px}
+.s{font-size:13px;fill:#5b6170}
+.ms{font-size:13.5px}
+.m{font-family:Consolas,'SF Mono',Menlo,monospace;font-size:14px;font-weight:700}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.num{font-weight:700;fill:#6d3fd1}
+.tG{fill:#1a7f37}.tR{fill:#c4321c}.tB{fill:#2457d6}.tP{fill:#6d3fd1}.tA{fill:#8a5a00}.tN{fill:#374151}
+.w{fill:#ffffff}
+.box{stroke-width:1.5}
+.spec{fill:#e8efff;stroke:#2457d6}
+.agent{fill:#fff4d6;stroke:#b7791f}
+.gate{fill:#f0e9ff;stroke:#6d3fd1}
+.ok{fill:#e3f6e8;stroke:#1a7f37}
+.bad{fill:#fde7e3;stroke:#c4321c}
+.neu{fill:#f3f4f6;stroke:#6b7280}
+.q{fill:#ffffff;stroke:#374151}
+.dark{fill:#1f2430;stroke:#1f2430}
+.ln{fill:none;stroke:#6b7280;stroke-width:1.6}
+.lnD{fill:none;stroke:#1f2430;stroke-width:1.4}
+.lnG{fill:none;stroke:#1a7f37;stroke-width:1.8}
+.lnR{fill:none;stroke:#c4321c;stroke-width:1.8}
+.lnB{fill:none;stroke:#2457d6;stroke-width:1.6}
+.lnP{fill:none;stroke:#6d3fd1;stroke-width:1.6}
+.dash{stroke-dasharray:6 5}
+</style><defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#6b7280"/></marker><marker id="aD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#1f2430"/></marker><marker id="aG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#1a7f37"/></marker><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#c4321c"/></marker><marker id="aB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#2457d6"/></marker><marker id="aP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#6d3fd1"/></marker><filter id="sh" x="-5%" y="-5%" width="110%" height="130%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#1f2430" flood-opacity=".12"/></filter></defs><rect x="0.5" y="0.5" width="1029" height="289" rx="16" fill="#ffffff" stroke="#e5e7eb"/><path d="M230,135 L298,80" class="ln" marker-end="url(#a)"/><path d="M230,155 L298,210" class="ln" marker-end="url(#a)"/><path d="M510,75 L578,132" class="lnP" marker-end="url(#aP)"/><path d="M510,215 L578,158" class="lnP" marker-end="url(#aP)"/><path d="M800,145 L858,145" class="lnG" marker-end="url(#aG)"/><rect x="30" y="110" width="200" height="70" rx="10" class="box spec" filter="url(#sh)"/><text x="130" y="141.2" class="b c ">Komponente wählen</text><text x="130" y="160.1" class="s c ">mit vorhandener Suite</text><rect x="300" y="40" width="210" height="70" rx="10" class="box agent" filter="url(#sh)"/><text x="405" y="71.2" class="b c ">N Synthesen</text><text x="405" y="90.0" class="s c ">Modelle · Sprachen · Profile</text><rect x="300" y="180" width="210" height="70" rx="10" class="box neu" filter="url(#sh)"/><text x="405" y="211.2" class="b c ">Etablierte Library</text><text x="405" y="230.1" class="s c ">als Baseline</text><rect x="580" y="100" width="220" height="90" rx="10" class="box gate" filter="url(#sh)"/><text x="690" y="132.1" class="b c ">Gleiche Prüfungen</text><text x="690" y="151.0" class="s c ">Suite · Fuzzing · Mutation</text><text x="690" y="169.2" class="s c ">externes Audit</text><rect x="860" y="110" width="140" height="70" rx="10" class="box ok" filter="url(#sh)"/><text x="930" y="141.2" class="b c ">Vergleich</text><text x="930" y="160.1" class="s c ">Metriken aus §9.2</text></svg>

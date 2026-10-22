@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520"><style>
+text{font-family:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;fill:#1f2430}
+.h{font-size:20px;font-weight:700}
+.b{font-size:15px;font-weight:600}
+.t{font-size:15px}
+.s{font-size:13px;fill:#5b6170}
+.ms{font-size:13.5px}
+.m{font-family:Consolas,'SF Mono',Menlo,monospace;font-size:14px;font-weight:700}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.num{font-weight:700;fill:#6d3fd1}
+.tG{fill:#1a7f37}.tR{fill:#c4321c}.tB{fill:#2457d6}.tP{fill:#6d3fd1}.tA{fill:#8a5a00}.tN{fill:#374151}
+.w{fill:#ffffff}
+.box{stroke-width:1.5}
+.spec{fill:#e8efff;stroke:#2457d6}
+.agent{fill:#fff4d6;stroke:#b7791f}
+.gate{fill:#f0e9ff;stroke:#6d3fd1}
+.ok{fill:#e3f6e8;stroke:#1a7f37}
+.bad{fill:#fde7e3;stroke:#c4321c}
+.neu{fill:#f3f4f6;stroke:#6b7280}
+.q{fill:#ffffff;stroke:#374151}
+.dark{fill:#1f2430;stroke:#1f2430}
+.ln{fill:none;stroke:#6b7280;stroke-width:1.6}
+.lnD{fill:none;stroke:#1f2430;stroke-width:1.4}
+.lnG{fill:none;stroke:#1a7f37;stroke-width:1.8}
+.lnR{fill:none;stroke:#c4321c;stroke-width:1.8}
+.lnB{fill:none;stroke:#2457d6;stroke-width:1.6}
+.lnP{fill:none;stroke:#6d3fd1;stroke-width:1.6}
+.dash{stroke-dasharray:6 5}
+</style><defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#6b7280"/></marker><marker id="aD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#1f2430"/></marker><marker id="aG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#1a7f37"/></marker><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#c4321c"/></marker><marker id="aB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#2457d6"/></marker><marker id="aP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#6d3fd1"/></marker><filter id="sh" x="-5%" y="-5%" width="110%" height="130%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#1f2430" flood-opacity=".12"/></filter></defs><rect x="0.5" y="0.5" width="999" height="519" rx="16" fill="#ffffff" stroke="#e5e7eb"/><rect x="20" y="20" width="470" height="480" rx="14" fill="#fff6f4" stroke="#f1c4bb"/><rect x="510" y="20" width="470" height="480" rx="14" fill="#f2faf4" stroke="#bfe3c9"/><text x="255" y="58" class="h c">Heute: geteilte Implementierung</text><text x="745" y="58" class="h c">VDS: geteilte Spezifikation</text><path d="M255,168 L72,398" class="lnR" marker-end="url(#aR)"/><path d="M255,168 L163,398" class="lnR" marker-end="url(#aR)"/><path d="M255,168 L255,398" class="lnR" marker-end="url(#aR)"/><path d="M255,168 L347,398" class="lnR" marker-end="url(#aR)"/><path d="M255,168 L438,398" class="lnR" marker-end="url(#aR)"/><rect x="135" y="110" width="240" height="58" rx="10" class="box bad" filter="url(#sh)"/><text x="255" y="135.2" class="b c ">Library v2.3.1</text><text x="255" y="154.1" class="s tR c ">eine Schwachstelle</text><rect x="30" y="400" width="84" height="46" rx="10" class="box bad" filter="url(#sh)"/><text x="72" y="428.3" class="t c ">App 1</text><rect x="121" y="400" width="84" height="46" rx="10" class="box bad" filter="url(#sh)"/><text x="163" y="428.3" class="t c ">App 2</text><rect x="213" y="400" width="84" height="46" rx="10" class="box bad" filter="url(#sh)"/><text x="255" y="428.3" class="t c ">App 3</text><rect x="305" y="400" width="84" height="46" rx="10" class="box bad" filter="url(#sh)"/><text x="347" y="428.3" class="t c ">App …</text><rect x="396" y="400" width="84" height="46" rx="10" class="box bad" filter="url(#sh)"/><text x="438" y="428.3" class="t c ">App 10.000</text><text x="255" y="478" class="b c tR">1 Fehler → alle Anwendungen betroffen</text><path d="M745,168 L600,248" class="ln" marker-end="url(#a)"/><path d="M745,168 L700,248" class="ln" marker-end="url(#a)"/><path d="M745,168 L800,248" class="ln" marker-end="url(#a)"/><path d="M745,168 L900,248" class="ln" marker-end="url(#a)"/><rect x="625" y="110" width="240" height="58" rx="10" class="box spec" filter="url(#sh)"/><text x="745" y="135.2" class="b c ">Spec Package v1.2</text><text x="745" y="154.1" class="s c ">geprüft und signiert</text><path d="M600,302 L600,398" class="lnG" marker-end="url(#aG)"/><rect x="558" y="250" width="84" height="52" rx="10" class="box ok" filter="url(#sh)"/><text x="600" y="281.3" class="b c ">Impl. 1</text><rect x="558" y="400" width="84" height="46" rx="10" class="box ok" filter="url(#sh)"/><text x="600" y="428.3" class="t c ">App 1</text><path d="M700,302 L700,398" class="lnR" marker-end="url(#aR)"/><rect x="658" y="250" width="84" height="52" rx="10" class="box bad" filter="url(#sh)"/><text x="700" y="272.1" class="b c ">Impl. 2</text><text x="700" y="291.1" class="s tR c ">Fehler</text><rect x="658" y="400" width="84" height="46" rx="10" class="box bad" filter="url(#sh)"/><text x="700" y="428.3" class="t c ">App 2</text><path d="M800,302 L800,398" class="lnG" marker-end="url(#aG)"/><rect x="758" y="250" width="84" height="52" rx="10" class="box ok" filter="url(#sh)"/><text x="800" y="281.3" class="b c ">Impl. 3</text><rect x="758" y="400" width="84" height="46" rx="10" class="box ok" filter="url(#sh)"/><text x="800" y="428.3" class="t c ">App 3</text><path d="M900,302 L900,398" class="lnG" marker-end="url(#aG)"/><rect x="858" y="250" width="84" height="52" rx="10" class="box ok" filter="url(#sh)"/><text x="900" y="281.3" class="b c ">Impl. …</text><rect x="858" y="400" width="84" height="46" rx="10" class="box ok" filter="url(#sh)"/><text x="900" y="428.3" class="t c ">App …</text><text x="745" y="478" class="b c tG">1 Fehler → eine Anwendung betroffen</text></svg>
