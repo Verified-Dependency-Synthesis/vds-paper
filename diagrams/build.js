@@ -253,14 +253,14 @@ function legend(x, y, items) {
       ['threat-model.md', 'Attack classes, assumptions, scope'],
     ]],
     ['Conformance suite', '#6d3fd1', 'gate', [
-      ['harness.md', 'Black-box protocol (stdin/stdout)'],
+      ['suite.yaml', 'Harness version and defaults'],
       ['vectors/', 'Input → expected behavior'],
       ['properties/', 'Language-neutral properties'],
       ['fuzz/', 'Fuzz targets, seed corpus, duration'],
       ['adversarial/', 'Known attack classes'],
     ]],
-    ['Trust and optional parts', '#1a7f37', null, [
-      ['SIGNATURE', 'Signature of the spec maintainers', 'ok'],
+    ['Manifest and optional parts', '#1a7f37', null, [
+      ['package.yaml', 'Name, version, areas, primitives', 'ok'],
       ['reference/', 'Only for differential testing', 'neu'],
     ]],
   ];
@@ -276,8 +276,8 @@ function legend(x, y, items) {
   const nx = 40 + 2 * 317;
   b += `<rect x="${nx}" y="300" width="290" height="186" rx="10" fill="#fafafa" stroke="#9ca3af" stroke-dasharray="6 4"/>`;
   b += T(nx + 16, 332, 'Language-neutral verification', 'b');
-  ['Every implementation includes a small', 'conformance adapter. The same suite', 'then runs as a black box against', 'Go, Rust or C.']
-    .forEach((l, i) => b += T(nx + 16, 360 + i * 22, l, 's'));
+  ['Every implementation includes a small', 'conformance adapter, so one suite', 'runs against Go, Rust or C.', '', 'Signatures are attached to the published', 'artifact, not stored in the package.']
+    .forEach((l, i) => b += T(nx + 16, 360 + i * 21, l, 's'));
   svg('spec-package', 1000, 520, b);
 }
 
@@ -547,6 +547,35 @@ function legend(x, y, items) {
   ['GitHub and ghcr.io only store and deliver packages. Trust comes', 'from the digest, the signing identity and the transparency log.', 'A compromised host can withhold packages, but cannot forge them.']
     .forEach((l, i) => b += T(50, 386 + i * 20, l, 's'));
   svg('registry-mvp', 1100, 470, b);
+}
+
+// 16 · Traceability ---------------------------------------------------------
+{
+  let b = '';
+  b += T(30, 44, 'Traceability inside a spec package', 'h');
+  b += T(30, 68, 'Every attack class is mitigated, every requirement is tested, and the profile decides what applies.', 's');
+
+  [[230, 310, 'lnR', 'aR', 'mitigated', 'tR'], [510, 590, 'lnP', 'aP', 'realized', 'tP'], [790, 870, 'lnG', 'aG', 'verified', 'tG']]
+    .forEach(([x1, x2, ln, mk, word, c]) => {
+      b += arrow([[x1, 170], [x2 - 2, 170]], ln, mk);
+      b += T((x1 + x2) / 2, 146, word, `s c ${c}`) + T((x1 + x2) / 2, 161, 'by', `s c ${c}`);
+    });
+  b += arrow([[690, 290], [690, 222]], 'lnB', 'aB');
+  b += T(700, 262, 'operations cite REQ IDs', 's tB');
+  [[410, 224], [690, 372], [970, 224]].forEach(([x, y]) => b += arrow([[x, 430], [x, y]], 'ln', 'a', { dash: true }));
+  b += T(420, 400, 'applies_when', 's') + T(700, 400, 'applies_when', 's') + T(980, 400, 'applies_when', 's');
+
+  b += box(30, 120, 200, 100, 'bad', [['threat-model.md', 'm'], ['ATK-HTTP-003', 's'], ['attack classes', 's']]);
+  b += box(310, 120, 200, 100, 'gate', [['invariants.yaml', 'm'], ['INV-HTTP-007', 's'], ['must never go wrong', 's']]);
+  b += box(590, 120, 200, 100, 'spec', [['spec.md', 'm'], ['REQ-HTTP-012', 's'], ['normative requirements', 's']]);
+  b += box(870, 120, 200, 100, 'ok', [['conformance/', 'm'], ['adversarial/header-…', 's'], ['executable tests', 's']]);
+  b += box(590, 290, 200, 80, 'neu', [['interface.yaml', 'm'], ['types, errors, operations', 's']]);
+  b += box(310, 430, 760, 60, 'agent', [['profile.schema.json', 'm'], ['decides which invariants, operations and tests apply under a project profile', 's']]);
+
+  b += `<rect x="30" y="290" width="240" height="120" rx="10" fill="#fafafa" stroke="#9ca3af" stroke-dasharray="6 4"/>`;
+  b += T(46, 318, 'Rules (excerpt)', 'b');
+  ['T1 · every ATK is mitigated or accepted', 'T3 · every MUST requirement is tested', 'T4 · critical invariants need adversarial', 'or property tests'].forEach((l, i) => b += T(i === 3 ? 76 : 46, 344 + i * 19, l, 's'));
+  svg('traceability', 1100, 515, b);
 }
 
 console.log('ok');

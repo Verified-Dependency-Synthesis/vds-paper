@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 515" width="1100" height="515"><style>
+text{font-family:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;fill:#1f2430}
+.h{font-size:20px;font-weight:700}
+.b{font-size:15px;font-weight:600}
+.t{font-size:15px}
+.s{font-size:13px;fill:#5b6170}
+.ms{font-size:13.5px}
+.m{font-family:Consolas,'SF Mono',Menlo,monospace;font-size:14px;font-weight:700}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.num{font-weight:700;fill:#6d3fd1}
+.tG{fill:#1a7f37}.tR{fill:#c4321c}.tB{fill:#2457d6}.tP{fill:#6d3fd1}.tA{fill:#8a5a00}.tN{fill:#374151}
+.w{fill:#ffffff}
+.box{stroke-width:1.5}
+.spec{fill:#e8efff;stroke:#2457d6}
+.agent{fill:#fff4d6;stroke:#b7791f}
+.gate{fill:#f0e9ff;stroke:#6d3fd1}
+.ok{fill:#e3f6e8;stroke:#1a7f37}
+.bad{fill:#fde7e3;stroke:#c4321c}
+.neu{fill:#f3f4f6;stroke:#6b7280}
+.q{fill:#ffffff;stroke:#374151}
+.dark{fill:#1f2430;stroke:#1f2430}
+.ln{fill:none;stroke:#6b7280;stroke-width:1.6}
+.lnD{fill:none;stroke:#1f2430;stroke-width:1.4}
+.lnG{fill:none;stroke:#1a7f37;stroke-width:1.8}
+.lnR{fill:none;stroke:#c4321c;stroke-width:1.8}
+.lnB{fill:none;stroke:#2457d6;stroke-width:1.6}
+.lnP{fill:none;stroke:#6d3fd1;stroke-width:1.6}
+.dash{stroke-dasharray:6 5}
+</style><defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#6b7280"/></marker><marker id="aD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#1f2430"/></marker><marker id="aG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#1a7f37"/></marker><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#c4321c"/></marker><marker id="aB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#2457d6"/></marker><marker id="aP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#6d3fd1"/></marker><filter id="sh" x="-5%" y="-5%" width="110%" height="130%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#1f2430" flood-opacity=".12"/></filter></defs><rect x="0.5" y="0.5" width="1099" height="514" rx="16" fill="#ffffff" stroke="#e5e7eb"/><text x="30" y="44" class="h">Traceability inside a spec package</text><text x="30" y="68" class="s">Every attack class is mitigated, every requirement is tested, and the profile decides what applies.</text><path d="M230,170 L308,170" class="lnR" marker-end="url(#aR)"/><text x="270" y="146" class="s c tR">mitigated</text><text x="270" y="161" class="s c tR">by</text><path d="M510,170 L588,170" class="lnP" marker-end="url(#aP)"/><text x="550" y="146" class="s c tP">realized</text><text x="550" y="161" class="s c tP">by</text><path d="M790,170 L868,170" class="lnG" marker-end="url(#aG)"/><text x="830" y="146" class="s c tG">verified</text><text x="830" y="161" class="s c tG">by</text><path d="M690,290 L690,222" class="lnB" marker-end="url(#aB)"/><text x="700" y="262" class="s tB">operations cite REQ IDs</text><path d="M410,430 L410,224" class="ln dash" marker-end="url(#a)"/><path d="M690,430 L690,372" class="ln dash" marker-end="url(#a)"/><path d="M970,430 L970,224" class="ln dash" marker-end="url(#a)"/><text x="420" y="400" class="s">applies_when</text><text x="700" y="400" class="s">applies_when</text><text x="980" y="400" class="s">applies_when</text><rect x="30" y="120" width="200" height="100" rx="10" class="box bad" filter="url(#sh)"/><text x="130" y="156.7" class="m c ">threat-model.md</text><text x="130" y="175.3" class="s c ">ATK-HTTP-003</text><text x="130" y="193.4" class="s c ">attack classes</text><rect x="310" y="120" width="200" height="100" rx="10" class="box gate" filter="url(#sh)"/><text x="410" y="156.7" class="m c ">invariants.yaml</text><text x="410" y="175.3" class="s c ">INV-HTTP-007</text><text x="410" y="193.4" class="s c ">must never go wrong</text><rect x="590" y="120" width="200" height="100" rx="10" class="box spec" filter="url(#sh)"/><text x="690" y="156.7" class="m c ">spec.md</text><text x="690" y="175.3" class="s c ">REQ-HTTP-012</text><text x="690" y="193.4" class="s c ">normative requirements</text><rect x="870" y="120" width="200" height="100" rx="10" class="box ok" filter="url(#sh)"/><text x="970" y="156.7" class="m c ">conformance/</text><text x="970" y="175.3" class="s c ">adversarial/header-…</text><text x="970" y="193.4" class="s c ">executable tests</text><rect x="590" y="290" width="200" height="80" rx="10" class="box neu" filter="url(#sh)"/><text x="690" y="325.8" class="m c ">interface.yaml</text><text x="690" y="344.4" class="s c ">types, errors, operations</text><rect x="310" y="430" width="760" height="60" rx="10" class="box agent" filter="url(#sh)"/><text x="690" y="455.8" class="m c ">profile.schema.json</text><text x="690" y="474.4" class="s c ">decides which invariants, operations and tests apply under a project profile</text><rect x="30" y="290" width="240" height="120" rx="10" fill="#fafafa" stroke="#9ca3af" stroke-dasharray="6 4"/><text x="46" y="318" class="b">Rules (excerpt)</text><text x="46" y="344" class="s">T1 · every ATK is mitigated or accepted</text><text x="46" y="363" class="s">T3 · every MUST requirement is tested</text><text x="46" y="382" class="s">T4 · critical invariants need adversarial</text><text x="76" y="401" class="s">or property tests</text></svg>

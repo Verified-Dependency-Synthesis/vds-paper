@@ -30,10 +30,24 @@ theme:
         icon: material/weather-sunny
         name: Switch to light mode
   features:
+    - navigation.tabs
+    - navigation.indexes
     - toc.follow
     - navigation.top
     - search.highlight
     - content.code.copy
+
+nav:
+  - Concept: index.md
+  - Spec Package Format:
+      - format/index.md
+      - package.yaml: format/manifest.md
+      - spec.md: format/spec-md.md
+      - interface.yaml: format/interface.md
+      - invariants.yaml: format/invariants.md
+      - profile.schema.json: format/profile.md
+      - threat-model.md: format/threat-model.md
+      - Conformance suite: format/conformance.md
 
 markdown_extensions:
   - admonition

@@ -2,6 +2,7 @@
 
 > - **Working title:** Specbase (*Specification Base Layer*)
 > - **Status:** Draft · Design concept v0.1 · 2026-10-22
+> - **Format:** [Spec Package Format](format/index.md) (draft `vds-spec/0.1`)
 > - **Read online:** [verified-dependency-synthesis.github.io/vds-paper](https://verified-dependency-synthesis.github.io/vds-paper/)
 
 ---
@@ -98,27 +99,42 @@ VDS is **not a replacement for all libraries**. Two questions decide: how expens
 
 ![Structure of a spec package](diagrams/spec-package.svg)
 
+> [!NOTE]
+> Every file, field and validation rule of a spec package is defined normatively in the **[Spec Package Format](format/index.md)**. This section only gives an overview.
+
+**Traceability:** The files of a package form one chain. Attack classes in `threat-model.md` are mitigated by invariants, invariants are realized by requirements in `spec.md`, and requirements are verified by tests. The profile decides which parts of that chain apply to a project.
+
+![Traceability inside a spec package](diagrams/traceability.svg)
+
 **Language-neutral conformance:** Every synthesized implementation contains a small *conformance adapter* that speaks the harness protocol. This lets the same suite run as a black box against Go, Rust or C implementations.
 
 Example of machine-readable invariants:
 
 ```yaml
 # invariants.yaml (excerpt)
-- id: TLS-001
-  rule: The certificate chain MUST be validated against the configured trust store.
-  tests: [adversarial/tls/expired, adversarial/tls/self-signed, adversarial/tls/wrong-host]
-  severity: critical
-  overridable: false          # no profile may disable this
+invariants:
+  - id: INV-TLS-001
+    title: Certificate chain validation
+    level: MUST
+    rule: The server certificate chain MUST be validated against the trust anchors from the environment.
+    category: crypto
+    severity: critical
+    overridable: false          # no profile may disable this
+    requirements: [REQ-TLS-001]
+    mitigates: [ATK-TLS-001]
+    tests: [adversarial/tls/expired-*, adversarial/tls/self-signed-*, adversarial/tls/wrong-host-*]
+    verification: [adversarial]
 
-- id: HTTP-007
-  rule: Header values containing CR or LF MUST be rejected.
-  tests: [adversarial/header-injection/*]
-  severity: critical
-
-- id: MEM-002
-  rule: The response body MUST NOT exceed max_response_bytes; exceeding it is an error, not silent truncation.
-  tests: [vectors/limits/body-*, properties/bounded-memory]
-  severity: high
+  - id: INV-MEM-002
+    title: Bounded response body
+    level: MUST NOT
+    rule: The response body MUST NOT exceed max_response_bytes; exceeding it is an error, not silent truncation.
+    category: resource-limits
+    severity: high
+    requirements: [REQ-MEM-002]
+    mitigates: [ATK-MEM-001]
+    tests: [vectors/limits/body-*, properties/bounded-memory/*]
+    verification: [vector, property]
 ```
 
 ### 5.3 Project profile
